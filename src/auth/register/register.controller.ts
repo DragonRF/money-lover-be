@@ -7,7 +7,7 @@ import { AuthService } from '../auth.service';
 export class RegisterController {
     constructor(private readonly authService: AuthService) {}
 
-    @Post()
+    @Post('/')
     async register(@Body() registerDto: RegisterDto): Promise<any> {
         try {
             const user = await this.authService.registerUser(registerDto);

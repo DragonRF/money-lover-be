@@ -1,5 +1,5 @@
 // user.entity.ts
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert, BaseEntity } from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, BeforeInsert, BaseEntity} from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 @Entity()
@@ -12,4 +12,7 @@ export class User extends BaseEntity {
 
     @Column()
     password: string;
+
+    @Column({default: false})
+    isActive: boolean;
 }

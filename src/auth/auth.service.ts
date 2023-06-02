@@ -3,14 +3,20 @@ import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/co
 import { RegisterDto } from './register/register.dto';
 import { User } from '../entities/user.entity';
 import { LoginDto } from './login/login.dto';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
+    constructor(
+        private jwtService: JwtService
+    ) {}
+
     async registerUser(registerDto: RegisterDto) {
         const { email, password } = registerDto;
         const userEntity: User = User.create();
         userEntity.email = email;
-        userEntity.password = password;
+        userEntity.password = await bcrypt.hash(password, 10);
         await userEntity.save();
         return userEntity;
     }
@@ -23,12 +29,16 @@ export class AuthService {
             throw new NotFoundException('User not found');
         }
 
-        const isPasswordValid = await userEntity.comparePassword(password);
+        const isPasswordValid = await bcrypt.compare(password, userEntity.password);
 
         if (!isPasswordValid) {
             throw new UnauthorizedException('Invalid credentials');
         }
 
-        return userEntity;
+        const payload = {id: userEntity.id, email: userEntity.email};
+
+        return {
+            access_token: await this.jwtService.signAsync(payload),
+        }
     }
 }

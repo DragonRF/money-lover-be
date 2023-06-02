@@ -1,16 +1,16 @@
-// register.controller.ts
+// login.controller.ts
 import { Body, Controller, Post } from '@nestjs/common';
-import { RegisterDto } from './register.dto';
+import { LoginDto } from './login.dto';
 import { AuthService } from '../auth.service';
 
-@Controller('register')
-export class RegisterController {
+@Controller('login')
+export class LoginController {
     constructor(private readonly authService: AuthService) {}
 
     @Post()
-    async register(@Body() registerDto: RegisterDto): Promise<any> {
+    async login(@Body() loginDto: LoginDto): Promise<any> {
         try {
-            const user = await this.authService.registerUser(registerDto);
+            const user = await this.authService.loginUser(loginDto);
             return {
                 status: 'success',
                 data: user,

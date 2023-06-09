@@ -3,12 +3,12 @@ import {Body, Controller, Post} from '@nestjs/common';
 import {LoginDto} from './login.dto';
 import {AuthService} from '../auth.service';
 
-@Controller('login')
+@Controller('/auth')
 export class LoginController {
     constructor(private readonly authService: AuthService) {
     }
 
-    @Post()
+    @Post('/login')
     async login(@Body() loginDto: LoginDto): Promise<any> {
         try {
             const user = await this.authService.loginUser(loginDto);
@@ -22,5 +22,14 @@ export class LoginController {
                 message: e.message,
             };
         }
+    }
+
+    @Post('/google/login')
+    async loginWithGoogle(@Body() data: any): Promise<any>{
+        const googleUser = await this.authService.loginWithGoogleUser(data);
+        return {
+            status: 'success',
+            data: googleUser,
+        };
     }
 }

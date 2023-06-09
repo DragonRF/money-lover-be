@@ -15,4 +15,8 @@ export class User extends BaseEntity {
 
     @Column({default: false})
     isActive: boolean;
+
+    @Column({nullable: true})
+    google_id: string;
+
 }

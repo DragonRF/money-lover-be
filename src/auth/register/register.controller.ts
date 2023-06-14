@@ -11,6 +11,7 @@ export class RegisterController {
     async register(@Body() registerDto: RegisterDto): Promise<any> {
         try {
             const user = await this.authService.registerUser(registerDto);
+            console.log(user)
             return {
                 status: 'success',
                 data: user,

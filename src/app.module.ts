@@ -5,6 +5,8 @@ import {AuthModule} from './auth/auth.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {DataSource} from 'typeorm';
 import {User} from "./entities/user.entity";
+import {Wallet} from "./entities/wallet.entity";
+import { WalletModule } from './wallets/wallet/wallet.module';
 
 @Module({
     imports: [
@@ -16,10 +18,11 @@ import {User} from "./entities/user.entity";
             username: 'root',
             password: '123456',
             database: 'moneylover',
-            entities: [User],
+            entities: [User, Wallet],
             synchronize: true,
             autoLoadEntities: true,
-        }),],
+        }),
+        WalletModule,],
     controllers: [AppController],
     providers: [AppService],
 })

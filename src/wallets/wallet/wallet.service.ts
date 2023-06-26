@@ -30,4 +30,14 @@ export class WalletService {
         });
         return currentUser.wallets;
     }
+
+    async deleteWalletById(walletId: number): Promise<any> {
+        const wallet = await Wallet.findOne({
+            where: {id: walletId},
+
+        })
+        await wallet.remove()
+    }
+
+
 }

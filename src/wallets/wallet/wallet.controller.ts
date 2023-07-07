@@ -1,5 +1,5 @@
 // wallet.controller.ts
-import {Body, Controller, Delete, Get, Param, Post, Request, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, Request, UseGuards} from '@nestjs/common';
 import {WalletDto} from './wallet.dto';
 import {AuthGuard} from '../../auth/auth.guard';
 import {WalletService} from './wallet.service';
@@ -62,4 +62,22 @@ export class WalletController {
             };
         }
     }
+
+    @Put("/:id")
+    async updateWallet(@Param("id") walletId: number, @Body() walletDto: WalletDto) {
+        try {
+            const updatedWallet = await this.walletService.updateWallet(walletDto, walletId);
+            return {
+                status: 'success',
+                data: updatedWallet,
+                message: 'Update wallet successfully.'
+            };
+        } catch (error) {
+            return {
+                status: 'error',
+                message: error.message,
+            };
+        }
+    }
+
 }

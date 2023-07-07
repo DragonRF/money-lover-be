@@ -7,6 +7,10 @@ import {DataSource} from 'typeorm';
 import {User} from "./entities/user.entity";
 import {Wallet} from "./entities/wallet.entity";
 import { WalletModule } from './wallets/wallet/wallet.module';
+import {Transactions} from "./entities/transactions.entity";
+import {TypeTransaction} from "./entities/type_transaction.entity";
+import {SubType} from "./entities/sub_type.entity";
+import {TransactionModule} from "./transactions/transaction/transaction.module";
 
 @Module({
     imports: [
@@ -18,11 +22,11 @@ import { WalletModule } from './wallets/wallet/wallet.module';
             username: 'root',
             password: '123456',
             database: 'moneylover',
-            entities: [User, Wallet],
+            entities: [User, Wallet,Transactions,TypeTransaction,SubType],
             synchronize: true,
             autoLoadEntities: true,
         }),
-        WalletModule,],
+        WalletModule,TransactionModule],
     controllers: [AppController],
     providers: [AppService],
 })
